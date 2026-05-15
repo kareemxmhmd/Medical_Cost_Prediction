@@ -4,7 +4,7 @@ Predicting individual medical insurance charges using a **Random Forest Regresso
 
 ## Dataset
 
-[Insurance dataset](https://www.kaggle.com/datasets/mirichoi0218/insurance) — 1,338 records with 7 features:
+Insurance dataset — 1,338 records with 7 features:
 
 | Feature    | Description                          |
 |------------|--------------------------------------|
@@ -42,16 +42,6 @@ Predicting individual medical insurance charges using a **Random Forest Regresso
 | MAE    | ~2,500 |
 
 > **Key finding:** `smoker` status is the dominant cost driver, followed by `age` and `bmi`.
-
-## Quick Start
-
-```bash
-# Install dependencies
-pip install pandas numpy scikit-learn matplotlib seaborn joblib
-
-# Run predictions
-python predict.py
-```
 
 ## Tech Stack
 
