@@ -1,28 +1,75 @@
 # Medical Cost Prediction
 
+Predicting individual medical insurance charges using a **Random Forest Regressor** — built as an end-to-end ML project covering EDA, preprocessing, modeling, evaluation, and inference.
+
+---
+
 ## Overview
-A machine learning project to predict medical insurance costs using patient demographics and health factors. The goal was to develop an accurate regression model that estimates insurance charges based on age, BMI, number of children, smoking status, and geographic region to support data-driven decision making in healthcare insurance.
+
+Medical insurance costs vary widely based on personal factors like age, BMI, smoking status, and region. This project builds a predictive model that estimates annual insurance charges for an individual, given those inputs.
+
+The full pipeline goes from raw data exploration all the way to a saved model with an interactive inference script — meaning you can actually run predictions on new inputs without touching the notebook.
+
+---
+
+## Project Structure
+
+```
+Medical_Cost_Prediction/
+│
+├── main.ipynb        # Full pipeline: EDA → preprocessing → modeling → evaluation
+├── predict.py        # Inference script — run predictions from the terminal
+├── model.pkl         # Saved Random Forest pipeline (preprocessing + model)
+├── insurance.csv     # Raw dataset
+└── README.md
+```
+
+---
 
 ## Technical Approach
-Implemented a robust machine learning pipeline using scikit-learn:
 
-- **Data Preprocessing**: 
-  - Analyzed 1,338 patient records with comprehensive EDA
-  - Applied StandardScaler to numeric features (age, BMI, children)
-  - Used OneHotEncoder for categorical features (sex, smoker, region)
-  
-- **Model Architecture**: 
-  - Implemented RandomForestRegressor with 100 estimators
-  - Created scikit-learn Pipeline for seamless preprocessing and prediction
-  - Achieved high predictive accuracy through cross-validation
+### 1. Exploratory Data Analysis (EDA)
+- Distribution analysis for all numerical features (`age`, `bmi`, `charges`)
+- Correlation heatmap to identify relationships with the target
+- Outlier detection — `charges` is right-skewed, driven heavily by smokers
+- Visual breakdown of cost by smoking status, region, and age group
 
-- **Deployment**: 
-  - Saved trained model as `model.pkl`
-  - Developed `predict.py` for real-time cost predictions
-  - Created `main.ipynb` documenting complete analysis workflow
+### 2. Preprocessing
+Built a scikit-learn `ColumnTransformer` inside a `Pipeline` to handle:
+- **Numerical features** → `StandardScaler`
+- **Categorical features** → `OneHotEncoder` (handles `sex`, `smoker`, `region`)
+
+Using a Pipeline ensures preprocessing is part of the saved model — no data leakage, no manual re-transformation at inference time.
+
+### 3. Modeling
+- **Algorithm:** `RandomForestRegressor`
+- **Why Random Forest?** Handles mixed feature types well, robust to outliers, and gives feature importance out of the box — useful for interpreting what actually drives costs.
+- Train/test split: 80/20
+
+### 4. Evaluation
+Evaluated on the held-out test set using three regression metrics:
+
+| Metric | What it tells you |
+|---|---|
+| **R²** | How much variance the model explains (1.0 = perfect) |
+| **MAE** | Average absolute prediction error in dollars |
+| **RMSE** | Penalizes large errors more heavily than MAE |
+
+### 5. Interpretation
+- Feature importance ranking from the trained forest
+- Residual plot (actual vs. predicted) to check for systematic bias
+- Confirmed that the model underperforms on extreme high-cost cases (outlier smokers)
+
+---
 
 ## Results
-- **High Accuracy**: Model provides reliable cost estimates for insurance pricing
-- **Key Finding**: Smoking status shows strongest correlation with medical charges
-- **Practical Value**: Enables insurance companies to assess risk and set premiums accurately
-- **Complete Package**: End-to-end solution from data analysis to deployment
+
+| Metric | Score |
+|---|---|
+| **R²** | **0.86** |
+| **MAE** | ~$2,500 |
+| **RMSE** | ~$4,800 |
+
+**The model explains 86% of the variance in insurance charges** — strong performance given the small dataset and no hyperparameter tuning beyond defaults.
+
+> **Key finding:** `smoker` status is by far the dominant cost driver, followed by `age` and `bmi`. Region and number of children have minimal predictive weight.
