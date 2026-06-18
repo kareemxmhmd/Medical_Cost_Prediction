@@ -21,6 +21,7 @@ Medical_Cost_Prediction/
 ├── predict.py        # Inference script — run predictions from the terminal
 ├── model.pkl         # Saved Random Forest pipeline (preprocessing + model)
 ├── insurance.csv     # Raw dataset
+├── modeling.py       # pipeline system
 └── README.md
 ```
 
