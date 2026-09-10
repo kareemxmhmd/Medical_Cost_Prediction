@@ -1,0 +1,4 @@
+Model,CV_MAE,CV_RMSE,CV_R2
+LightGBM (regression_l1),1911.19,4833.92,0.8344
+Linear Regression,2697.65,4719.98,0.8422
+Random Forest,2849.56,5006.51,0.8202

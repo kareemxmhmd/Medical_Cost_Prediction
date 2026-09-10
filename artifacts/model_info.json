@@ -1,0 +1,32 @@
+{
+    "version": "v1.0",
+    "training_date": "2026-09-07T20:09:38.272377+00:00",
+    "metrics": {
+        "mae": 1201.55,
+        "rmse": 3367.99,
+        "r2": 0.9213,
+        "coverage_80": 0.8396
+    },
+    "feature_names": [
+        "age",
+        "bmi",
+        "children",
+        "is_obese",
+        "obese_smoker",
+        "smoker_no",
+        "smoker_yes",
+        "region_northeast",
+        "region_northwest",
+        "region_southeast",
+        "region_southwest"
+    ],
+    "description": "LightGBM champion (regression_l1) with calibrated quantile regression for 80% prediction intervals.",
+    "policy": {
+        "tier_standard_max": 16640.0,
+        "tier_loaded_max": 41180.0,
+        "quantile_alphas": {
+            "lower": 0.1,
+            "upper": 0.9
+        }
+    }
+}
