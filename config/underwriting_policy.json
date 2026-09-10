@@ -1,0 +1,9 @@
+{
+    "tier_standard_max_cost": 16640.0,
+    "tier_loaded_max_cost": 41180.0,
+    "quantile_alphas": {
+        "lower": 0.10,
+        "upper": 0.90
+    },
+    "description": "Underwriting tier thresholds and quantile regression alpha parameters for 80% prediction intervals."
+}
