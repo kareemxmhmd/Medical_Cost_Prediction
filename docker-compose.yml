@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: medcost-api
+    command: uvicorn src.api.server:app --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./audit_predictions.db:/app/audit_predictions.db
+      - ./artifacts:/app/artifacts
+      - ./reports:/app/reports
+      - ./config:/app/config
+    environment:
+      - PORT=8000
+      - PYTHONPATH=/app
+      - API_KEY=dev-api-key-change-in-production
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: medcost-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_API_KEY=dev-api-key-change-in-production
+    depends_on:
+      - api
+    restart: unless-stopped
